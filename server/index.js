@@ -27,11 +27,10 @@ mongoose
 
 app.use(express.json());
 app.use("/api/auth", authRoutes);
-app.use(authMiddleware);
-app.use("/api/user", userRoutes);
-app.use("/api/task", taskRoutes);
-app.use("/api/workspace", workspaceRoutes);
-app.use("/api/password-reset", passwordResetRoutes);
+app.use("/api/user", authMiddleware, userRoutes);
+app.use("/api/task", authMiddleware, taskRoutes);
+app.use("/api/workspace", authMiddleware, workspaceRoutes);
+app.use("/api/password-reset", authMiddleware, passwordResetRoutes);
 app.use("/", (req, res) => {
   res.send("Server is Runing");
 });
