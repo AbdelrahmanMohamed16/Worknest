@@ -54,7 +54,10 @@ export function SignUp() {
       return;
     }
     axios
-      .post("http://localhost:9000/api/auth/register", formData)
+      .post(
+        "https://worknest-server-eight.vercel.app/api/auth/register",
+        formData
+      )
       .then((res) => {
         console.log(res);
         console.log("We Are Here");

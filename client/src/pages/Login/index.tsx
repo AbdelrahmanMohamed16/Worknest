@@ -60,7 +60,7 @@ export function Login() {
 
     try {
       const res = await axios.post(
-        "http://localhost:9000/api/auth/login",
+        "https://worknest-server-eight.vercel.app/api/auth/login",
         formData
       );
       localStorage.setItem("Token", res.data.token);
