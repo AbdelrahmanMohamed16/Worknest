@@ -16,14 +16,19 @@ const app = express();
 // CORS Middleware
 app.use(cors()); // Enable CORS for all routes
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
+async function connectDB() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true, // These options avoid deprecation warnings
+      useUnifiedTopology: true, // Ensures compatibility with MongoDB drivers
+    });
     console.log("MongoDB Connected!");
-  })
-  .catch(() => {
-    console.log("Failed to connect to MongoDB");
-  });
+  } catch (error) {
+    console.error("Failed to connect to MongoDB:", error.message);
+  }
+}
+
+connectDB();
 
 app.use(express.json());
 app.use("/api/auth", authRoutes);
