@@ -55,9 +55,13 @@ export const UserContextProvider: React.FC<UserProviderProps> = ({
   const updateUser = async (user: User) => {
     try {
       const { id } = jwtDecode<any>(token); // Decode the token and get the ID
-      const response = await axios.put(`http://localhost:9000/api/user`, user, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.put(
+        `https://worknest-server-eight.vercel.app/api/user`,
+        user,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const { username, email, avatar, currentWorkspace } = response.data; // Destructure the response data
 
       setUserData({ id, username, email, avatar, currentWorkspace }); // Set the user data in state
@@ -72,9 +76,12 @@ export const UserContextProvider: React.FC<UserProviderProps> = ({
       setUserData("loading");
       try {
         const { id } = jwtDecode<any>(token); // Decode the token and get the ID
-        const response = await axios.get(`http://localhost:9000/api/user`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `https://worknest-server-eight.vercel.app/api/user`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         const { username, email, avatar, currentWorkspace } = response.data; // Destructure the response data
 
         setUserData({ id, username, email, avatar, currentWorkspace }); // Set the user data in state

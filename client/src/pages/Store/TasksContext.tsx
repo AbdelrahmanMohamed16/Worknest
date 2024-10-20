@@ -81,7 +81,7 @@ export const TasksContextProvider: React.FC<TasksProviderProps> = ({
       setTasks("loading");
       try {
         const response = await axios.get(
-          `http://localhost:9000/api/workspace/tasks`,
+          `https://worknest-server-eight.vercel.app/api/workspace/tasks`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -98,7 +98,7 @@ export const TasksContextProvider: React.FC<TasksProviderProps> = ({
       setWorkspace("loading");
       try {
         const response = await axios.get(
-          `http://localhost:9000/api/workspace`,
+          `https://worknest-server-eight.vercel.app/api/workspace`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -115,7 +115,7 @@ export const TasksContextProvider: React.FC<TasksProviderProps> = ({
       setWorkspaces("loading");
       try {
         const response = await axios.get(
-          `http://localhost:9000/api/user/workspaces`,
+          `https://worknest-server-eight.vercel.app/api/user/workspaces`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -156,7 +156,7 @@ export const TasksContextProvider: React.FC<TasksProviderProps> = ({
   const addTask = async (newTask: Omit<Task, "_id" | "created">) => {
     try {
       const response = await axios.post(
-        `http://localhost:9000/api/task`,
+        `https://worknest-server-eight.vercel.app/api/task`,
         newTask,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -175,7 +175,7 @@ export const TasksContextProvider: React.FC<TasksProviderProps> = ({
   const updateTask = async (id: string, updatedTask: Partial<Task>) => {
     try {
       const response = await axios.put(
-        `http://localhost:9000/api/task?id=${id}`,
+        `https://worknest-server-eight.vercel.app/api/task?id=${id}`,
         updatedTask,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -193,9 +193,12 @@ export const TasksContextProvider: React.FC<TasksProviderProps> = ({
 
   const deleteTask = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:9000/api/task?id=${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `https://worknest-server-eight.vercel.app/api/task?id=${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setTasks((prevTasks) =>
         prevTasks && prevTasks !== "loading"
           ? prevTasks.filter((task) => task._id !== id)
