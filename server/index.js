@@ -38,6 +38,4 @@ app.use("/", (req, res) => {
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
-});
+app.listen();
