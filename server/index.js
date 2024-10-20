@@ -25,9 +25,6 @@ mongoose
     console.log("Failed to connect to MongoDB");
   });
 
-app.use("/", (req, res) => {
-  res.send("Server is Runing");
-});
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use(authMiddleware);
@@ -35,6 +32,9 @@ app.use("/api/user", userRoutes);
 app.use("/api/task", taskRoutes);
 app.use("/api/workspace", workspaceRoutes);
 app.use("/api/password-reset", passwordResetRoutes);
+app.use("/", (req, res) => {
+  res.send("Server is Runing");
+});
 app.use(notFound);
 app.use(errorHandler);
 
