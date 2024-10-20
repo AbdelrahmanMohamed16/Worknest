@@ -25,6 +25,9 @@ mongoose
     console.log("Failed to connect to MongoDB");
   });
 
+app.use("/", (req, res) => {
+  res.send("Server is Runing");
+});
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use(authMiddleware);
