@@ -53,7 +53,7 @@ export default function Workspace() {
 
     try {
       const res = await axios.post(
-        "http://localhost:9000/api/workspace",
+        "https://worknest-server-eight.vercel.app/api/workspace",
         formData,
         {
           headers: { Authorization: `Bearer ${token}` },
