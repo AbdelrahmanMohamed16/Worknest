@@ -133,7 +133,7 @@ export default function Overview() {
                 Hi {userData.username}
               </Typography>
               <Typography variant="body1" color="#666666">
-                Wecome to Worknest Task Management
+                Welcome to Worknest Task Management
               </Typography>
             </Stack>
           </Stack>
