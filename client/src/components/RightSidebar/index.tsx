@@ -58,7 +58,7 @@ export default function RightSidebar() {
           >
             {userData?.email}
           </Typography>
-          <Button
+          {/* <Button
             variant="contained"
             sx={{
               background: "#3754DB",
@@ -70,7 +70,7 @@ export default function RightSidebar() {
             }}
           >
             My Profile
-          </Button>
+          </Button> */}
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateCalendar
               sx={{ background: "#F6F8FD", width: "100%" }}
