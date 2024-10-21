@@ -46,7 +46,7 @@ export default function TaskCard({
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleMarkAsDone = () => {
-    onStatusChange("Completed");
+    onStatusChange("completed");
   };
 
   return (
