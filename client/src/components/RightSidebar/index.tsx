@@ -54,23 +54,11 @@ export default function RightSidebar() {
               wordBreak: "break-word",
               whiteSpace: "normal",
               overflowWrap: "break-word",
+              marginBottom: 5,
             }}
           >
             {userData?.email}
           </Typography>
-          {/* <Button
-            variant="contained"
-            sx={{
-              background: "#3754DB",
-              borderRadius: "12px",
-              paddingX: "15px",
-              paddingY: "8px",
-              marginTop: "8px",
-              marginBottom: "50px",
-            }}
-          >
-            My Profile
-          </Button> */}
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateCalendar
               sx={{ background: "#F6F8FD", width: "100%" }}
