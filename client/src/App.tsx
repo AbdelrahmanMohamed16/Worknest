@@ -10,18 +10,20 @@ import ViewTasks from "./pages/ViewTasks";
 import Workspace from "./pages/Workspace";
 import { NotFound } from "./pages/NotFound";
 import Settings from "./pages/Settings";
+import Loading from "./pages/Loading";
+import { useTasksContext } from "./pages/Store/TasksContext";
 
 const App: React.FC = () => {
   const { userData } = useUserContext();
+  const { workspace } = useTasksContext();
 
   const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
     children,
   }) => {
-    console.log(userData);
-    return userData ? (
+    return userData === "loading" && workspace === "loading" ? (
+      <Loading />
+    ) : userData ? (
       <>{children}</>
-    ) : userData === "loading" ? (
-      <p>Loading....</p>
     ) : (
       <Navigate to={"/login"} />
     );
@@ -47,10 +49,38 @@ const App: React.FC = () => {
           </ProtectedRoute>
         }
       >
-        <Route index element={<Overview />} />
-        <Route path="overview" element={<Overview />} />
-        <Route path="tasks" element={<ViewTasks />} />
-        <Route path="settings" element={<Settings />} />
+        <Route
+          index
+          element={
+            <ProtectedRoute>
+              <Overview />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="overview"
+          element={
+            <ProtectedRoute>
+              <Overview />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="tasks"
+          element={
+            <ProtectedRoute>
+              <ViewTasks />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
       </Route>
 
       <Route

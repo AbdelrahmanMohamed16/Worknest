@@ -1,5 +1,3 @@
-import { styled } from "@mui/material/styles";
-import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -8,38 +6,12 @@ import React from "react";
 import { Button, Container, Grid2, Stack, Typography } from "@mui/material";
 import avatar from "../../assets/1.png";
 import { useTasksContext } from "../../pages/Store/TasksContext";
+import { useUserContext } from "../../pages/Store/UserContext";
 
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  "& .MuiBadge-badge": {
-    backgroundColor: "#44b700",
-    color: "#44b700",
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    "&::after": {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      borderRadius: "50%",
-      animation: "ripple 1.2s infinite ease-in-out",
-      border: "1px solid currentColor",
-      content: '""',
-    },
-  },
-  "@keyframes ripple": {
-    "0%": {
-      transform: "scale(.8)",
-      opacity: 1,
-    },
-    "100%": {
-      transform: "scale(2.4)",
-      opacity: 0,
-    },
-  },
-}));
-
-export default function RightSidebar({ userData }: any) {
-  const { setDate } = useTasksContext();
+export default function RightSidebar() {
+  const { userData } = useUserContext();
+  const { setDate, date } = useTasksContext();
+  if (userData === null || userData === "loading") return <></>;
   return (
     <Grid2
       size={{ sm: 3, md: 2 }}
@@ -55,7 +27,7 @@ export default function RightSidebar({ userData }: any) {
       <Container sx={{ display: "flex", justifyContent: "center" }}>
         <Stack sx={{ alignItems: "center", width: "100%" }} mt={12}>
           <Avatar
-            alt={userData?.username || "User Name"}
+            alt={userData?.username}
             src={userData?.avatar || avatar}
             sx={{
               borderRadius: "10px",
@@ -64,11 +36,27 @@ export default function RightSidebar({ userData }: any) {
               height: "90px",
             }}
           />
-          <Typography variant="h6" color="#101C56">
-            {userData?.username || "User Name"}
+          <Typography
+            variant="h6"
+            color="#101C56"
+            sx={{
+              wordBreak: "break-word",
+              whiteSpace: "normal",
+              overflowWrap: "break-word",
+            }}
+          >
+            {userData?.username}
           </Typography>
-          <Typography variant="body2" color="#666666">
-            {userData?.email || "Useremail@gmail.com"}
+          <Typography
+            variant="body2"
+            color="#666666"
+            sx={{
+              wordBreak: "break-word",
+              whiteSpace: "normal",
+              overflowWrap: "break-word",
+            }}
+          >
+            {userData?.email}
           </Typography>
           <Button
             variant="contained"
@@ -89,6 +77,7 @@ export default function RightSidebar({ userData }: any) {
               onChange={(value) => {
                 setDate(value);
               }}
+              value={date}
             />
           </LocalizationProvider>
         </Stack>

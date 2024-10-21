@@ -6,31 +6,26 @@ import {
   useState,
 } from "react";
 import { useAuthContext } from "./AuthContext";
-import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 interface User {
+  username: string;
+  email: string;
+  avatar: string;
+  currentWorkspace: string;
+}
+interface UpdatedUser {
   username: string;
   email: string;
   password: string;
   currentWorkspace: string;
 }
 interface UserState {
-  userData: {
-    id: string;
-    username: string;
-    email: string;
-    avatar: string;
-    currentWorkspace: string;
-  };
-  setUserData: (
-    id: string,
-    username: string,
-    email: string,
-    avatar: string,
-    currentWorkspace: string
-  ) => void;
-  updateUser: (user: User) => void;
+  userData: User | "loading" | null;
+  userWorkspace: string | null;
+  setUserData: (user: User | null) => void;
+  setUserWorkspace: (userWorkspace: string) => void;
+  updateUser: (user: UpdatedUser) => void;
 }
 
 export let userContext = createContext<UserState | undefined>(undefined);
@@ -51,10 +46,10 @@ export const UserContextProvider: React.FC<UserProviderProps> = ({
   children,
 }) => {
   const { token } = useAuthContext();
-  const [userData, setUserData] = useState<any>(token ? "loading" : null);
-  const updateUser = async (user: User) => {
+  const [userData, setUserData] = useState<User | "loading" | null>(null);
+  const [userWorkspace, setUserWorkspace] = useState<string | null>(null);
+  const updateUser = async (user: UpdatedUser) => {
     try {
-      const { id } = jwtDecode<any>(token); // Decode the token and get the ID
       const response = await axios.put(
         `https://worknest-server-eight.vercel.app/api/user`,
         user,
@@ -64,7 +59,8 @@ export const UserContextProvider: React.FC<UserProviderProps> = ({
       );
       const { username, email, avatar, currentWorkspace } = response.data; // Destructure the response data
 
-      setUserData({ id, username, email, avatar, currentWorkspace }); // Set the user data in state
+      setUserData({ username, email, avatar, currentWorkspace }); // Set the user data in state
+      setUserWorkspace(currentWorkspace);
     } catch (error) {
       console.error("Error fetching user data:", error);
       setUserData(null); // Reset user data if there is an error
@@ -75,7 +71,6 @@ export const UserContextProvider: React.FC<UserProviderProps> = ({
     const fetchUserData = async () => {
       setUserData("loading");
       try {
-        const { id } = jwtDecode<any>(token); // Decode the token and get the ID
         const response = await axios.get(
           `https://worknest-server-eight.vercel.app/api/user`,
           {
@@ -84,7 +79,8 @@ export const UserContextProvider: React.FC<UserProviderProps> = ({
         );
         const { username, email, avatar, currentWorkspace } = response.data; // Destructure the response data
 
-        setUserData({ id, username, email, avatar, currentWorkspace }); // Set the user data in state
+        setUserData({ username, email, avatar, currentWorkspace }); // Set the user data in state
+        setUserWorkspace(currentWorkspace);
       } catch (error) {
         console.error("Error fetching user data:", error);
         setUserData(null); // Reset user data if there is an error
@@ -103,6 +99,8 @@ export const UserContextProvider: React.FC<UserProviderProps> = ({
       value={{
         userData,
         setUserData,
+        setUserWorkspace,
+        userWorkspace,
         updateUser,
       }}
     >

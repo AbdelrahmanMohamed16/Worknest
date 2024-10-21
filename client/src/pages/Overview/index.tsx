@@ -12,6 +12,8 @@ export default function Overview() {
   const [value, setValue] = useState("1");
   const { tasksDueDate } = useTasksContext();
 
+  if (userData === null || userData === "loading") return <></>;
+
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -66,7 +68,13 @@ export default function Overview() {
                 variant="body1"
                 color="text.secondary"
                 align="center"
-                sx={{ width: "100%", mt: 2 }}
+                sx={{
+                  width: "100%",
+                  mt: 2,
+                  wordBreak: "break-word",
+                  whiteSpace: "normal",
+                  overflowWrap: "break-word",
+                }}
               >
                 You have no tasks yet. Start adding tasks to organize your
                 workflow!
@@ -89,40 +97,6 @@ export default function Overview() {
         </TabPanel>
       </TabContext>
     );
-    // if (
-    //   tasksDueDate !== "loading" &&
-    //   tasksDueDate !== null &&
-    //   tasksDueDate.length > 0
-    // ) {
-    //   return (
-    //     <Grid container spacing={2}>
-    //       {tasksDueDate?.map((task) => (
-    //         <Grid item xs={12} sm={6} key={task._id}>
-    //           <SimpleTaskCard
-    //             id={task._id}
-    //             title={task.title}
-    //             description={task.description}
-    //             status={task.status}
-    //             duo={task.duo}
-    //           />
-    //         </Grid>
-    //       ))}
-    //     </Grid>
-    //   );
-    // } else {
-    //   return (
-    //     <Stack flexDirection={"row"} justifyContent={"center"}>
-    //       <Typography
-    //         variant="body1"
-    //         color="text.secondary"
-    //         align="center"
-    //         sx={{ width: "100%", mt: 2 }}
-    //       >
-    //         You have no tasks yet. Start adding tasks to organize your workflow!
-    //       </Typography>
-    //     </Stack>
-    //   );
-    // }
   }
 
   if (!userData) return <p>Loading user data...</p>;
@@ -146,6 +120,11 @@ export default function Overview() {
                 mb={1}
                 fontWeight={"bold"}
                 color="#101C56"
+                sx={{
+                  wordBreak: "break-word",
+                  whiteSpace: "normal",
+                  overflowWrap: "break-word",
+                }}
               >
                 Hi {userData.username}
               </Typography>

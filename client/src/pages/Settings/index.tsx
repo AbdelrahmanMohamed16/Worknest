@@ -12,22 +12,22 @@ import {
 import React, { useState } from "react";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
-import PasswordIcon from "@mui/icons-material/Password";
 import { useUserContext } from "../Store/UserContext";
 import { useAuthContext } from "../Store/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Settings() {
   const [open, setOpen] = useState(false);
-  const { userData, updateUser } = useUserContext();
+  const { userData, updateUser, setUserData } = useUserContext();
   const { logout } = useAuthContext();
   const [formData, setFormData] = useState({
-    username: userData?.username,
-    email: userData?.email,
+    username: userData !== "loading" ? userData?.username : "username",
+    email: userData !== "loading" ? userData?.email : "username@gmail.com",
     password: "",
     currentWorkspace: "",
   });
   const navigate = useNavigate();
+  if (userData === null || userData === "loading") return <></>;
 
   function removeEmptyProperties(obj: any) {
     return Object.entries(obj).reduce((acc: any, [key, value]) => {
@@ -76,7 +76,9 @@ export default function Settings() {
           }}
           onClick={() => {
             logout();
-            navigate("/login");
+            setUserData(null);
+            console.log("logout userData", userData);
+            // navigate("/login");
           }}
         >
           Log Out
@@ -109,7 +111,15 @@ export default function Settings() {
                   <Typography sx={{ fontSize: "12px" }} variant="h6">
                     Fullname
                   </Typography>
-                  <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: "19px",
+                      wordBreak: "break-word",
+                      whiteSpace: "normal",
+                      overflowWrap: "break-word",
+                    }}
+                  >
                     {userData?.username}
                   </Typography>
                 </Box>
@@ -131,7 +141,15 @@ export default function Settings() {
                   <Typography variant="h6" sx={{ fontSize: "12px" }}>
                     Email Address
                   </Typography>
-                  <Typography sx={{ fontWeight: "bold", fontSize: "19px" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: "19px",
+                      wordBreak: "break-word",
+                      whiteSpace: "normal",
+                      overflowWrap: "break-word",
+                    }}
+                  >
                     {userData?.email}
                   </Typography>
                 </Box>

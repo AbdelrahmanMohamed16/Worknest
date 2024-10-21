@@ -32,6 +32,7 @@ interface TaskState {
   tasksDueDate: Task[] | "loading" | null;
   workspace: Workspace | "loading" | null;
   workspaces: Workspace[] | "loading" | null;
+  date: Dayjs | null;
   setTasks: (tasks: Task[]) => void;
   setWorkspace: (workspace: Workspace) => void;
   setWorkspaces: (workspace: Workspace[]) => void;
@@ -61,7 +62,7 @@ export const TasksContextProvider: React.FC<TasksProviderProps> = ({
   children,
 }) => {
   const { token } = useAuthContext();
-  const { userData } = useUserContext();
+  const { userWorkspace } = useUserContext();
   const [tasks, setTasks] = useState<Task[] | "loading" | null>(
     token ? "loading" : null
   );
@@ -127,11 +128,11 @@ export const TasksContextProvider: React.FC<TasksProviderProps> = ({
         setWorkspace(null);
       }
     };
-
-    if (token) {
+    console.log(userWorkspace);
+    if (token && userWorkspace) {
       fetchWorkspaces().then(fetchWorkspace).then(fetchTasks);
     }
-  }, [token, userData]);
+  }, [token, userWorkspace]);
 
   useEffect(() => {
     const nearDuoDate = (tasks: Task[]) => {
@@ -141,14 +142,13 @@ export const TasksContextProvider: React.FC<TasksProviderProps> = ({
       return tasks.filter((task) => {
         const taskDueDate = dayjs(task.duo);
         return (
-          taskDueDate.isAfter(today) &&
+          (taskDueDate.isSame(today) || taskDueDate.isAfter(today)) &&
           taskDueDate.isBefore(threeDaysFromNow) &&
           task.status !== "completed"
         );
       });
     };
     if (tasks !== "loading" && tasks !== null) {
-      console.log(tasks);
       setTasksDueDate(nearDuoDate(tasks));
     }
   }, [date, tasks]);
@@ -216,6 +216,7 @@ export const TasksContextProvider: React.FC<TasksProviderProps> = ({
         tasksDueDate,
         workspace,
         workspaces,
+        date,
         setTasks,
         setWorkspace,
         setWorkspaces,

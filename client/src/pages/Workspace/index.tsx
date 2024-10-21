@@ -17,13 +17,14 @@ interface FormData {
 }
 export default function Workspace() {
   const { token } = useAuthContext();
-  const { userData, setUserData } = useUserContext();
+  const { userData, setUserData, setUserWorkspace } = useUserContext();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errors, setErrors] = useState<Joi.ValidationErrorItem[]>([]);
   const [formData, setFormData] = useState<FormData>({
     title: "",
   });
   let navigate = useNavigate();
+  if (userData === null || userData === "loading") return <></>;
 
   const getData = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -59,9 +60,11 @@ export default function Workspace() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      const { currentWorkspace } = res.data;
-      const { id, username, email, avatar } = userData;
-      setUserData(id, username, email, avatar, currentWorkspace);
+      const currentWorkspace = res.data._id;
+      const { username, email, avatar } = userData;
+      setUserData({ username, email, avatar, currentWorkspace });
+      setUserWorkspace(currentWorkspace);
+      console.log("login userData", userData);
       setErrorMessage("");
       navigate("/");
     } catch (err: any) {
@@ -90,7 +93,11 @@ export default function Workspace() {
                   ))}
                 </Alert>
               )}
-              <Stack flexDirection={"row"}>
+              <Stack
+                flexDirection={"row"}
+                flexWrap={"wrap"}
+                justifyContent={"center"}
+              >
                 <Typography variant="h3">Create A </Typography>
                 <Typography variant="h3" sx={{ color: "#3754DB", ml: 1 }}>
                   Workspace
@@ -102,7 +109,7 @@ export default function Workspace() {
                 type="text"
                 name="title"
                 onChange={getData}
-                sx={{ width: "30%", mt: "40px" }}
+                sx={{ width: { xs: "100%", sm: "60%", md: "40%" }, mt: "40px" }}
               />
               <Button
                 sx={{

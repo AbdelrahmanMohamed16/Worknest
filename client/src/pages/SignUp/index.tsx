@@ -6,6 +6,7 @@ import axios from "axios";
 import Joi from "joi"; // Use the regular Joi library
 import { Alert } from "@mui/material";
 import { useAuthContext } from "../Store/AuthContext";
+import { useUserContext } from "../Store/UserContext";
 
 interface FormData {
   username: string;
@@ -19,7 +20,6 @@ export function SignUp() {
     email: "",
     password: "",
   });
-  const { setToken } = useAuthContext();
   const [errMsg, setErrMsg] = useState<string>("");
 
   const getData = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,15 +59,11 @@ export function SignUp() {
         formData
       )
       .then((res) => {
-        console.log(res);
-        console.log("We Are Here");
-        navigate("/createworkspace");
-        setToken(res.data.token);
-        localStorage.setItem("Token", res.data.token);
+        navigate("/login");
       })
       .catch((err) => {
         console.log(err);
-        setErrMsg(err.message);
+        setErrMsg(err.response.data.error);
       });
   }
 

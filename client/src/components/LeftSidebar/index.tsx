@@ -24,11 +24,15 @@ import { useTasksContext } from "../../pages/Store/TasksContext";
 import { useUserContext } from "../../pages/Store/UserContext";
 import WorkspacesIcon from "@mui/icons-material/Workspaces";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-export default function LeftSidebar({ workspace }: any) {
+import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+export default function LeftSidebar() {
   const [open, setOpen] = React.useState(false);
-  const { workspaces } = useTasksContext();
+  const { workspaces, workspace, date, setDate } = useTasksContext();
   const { updateUser, userData } = useUserContext();
   const navigate = useNavigate();
+
+  if (userData === null || userData === "loading") return <></>;
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -140,6 +144,16 @@ export default function LeftSidebar({ workspace }: any) {
           </ListItemButton>
         </ListItem>
       </List>
+      <Divider />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DateCalendar
+          sx={{ background: "#F6F8FD", width: "100%" }}
+          onChange={(value) => {
+            setDate(value);
+          }}
+          value={date}
+        />
+      </LocalizationProvider>
     </Box>
   );
   return (
@@ -152,7 +166,7 @@ export default function LeftSidebar({ workspace }: any) {
         left={0}
         sx={{
           background: "#3754DB",
-          zIndex: 3,
+          zIndex: 4,
         }}
       >
         <Stack
@@ -203,10 +217,11 @@ export default function LeftSidebar({ workspace }: any) {
       </Grid2>
       <Grid2
         size={{ xs: 1.1, md: 2 }}
+        offset={{ md: 0.4 }}
         position={"fixed"}
         top={0}
         bottom={0}
-        left={{ xs: 0, md: 60 }}
+        left={{ xs: 0 }}
         sx={{
           background: "#FFFFFF",
           zIndex: 3,

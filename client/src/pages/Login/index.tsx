@@ -65,14 +65,13 @@ export function Login() {
       );
       localStorage.setItem("Token", res.data.token);
       setToken(res.data.token);
-      const { id, username, email, avatar, currentWorkspace } = res.data;
-      setUserData(id, username, email, avatar, currentWorkspace);
+      const { username, email, avatar, currentWorkspace } = res.data;
+      setUserData({ username, email, avatar, currentWorkspace });
       setErrorMessage("");
-      console.log(res); // Clear previous error messages
-      navigate("/");
+      if (currentWorkspace) navigate("/");
+      else navigate("/createworkspace");
     } catch (err: any) {
       console.log(err);
-      // Use 'any' type for the error
       setErrorMessage(err.response?.data.error || "An error occurred");
     }
   };
