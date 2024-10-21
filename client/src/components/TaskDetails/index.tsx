@@ -11,7 +11,7 @@ export default function TaskDetails() {
   const { tasks, updateTask, deleteTask } = useTasksContext();
   const navigate = useNavigate();
   if (tasks === "loading" || tasks === null) return <Loading />;
-  if (!taskId) navigate("/");
+  if (!taskId || taskId === undefined) navigate("/");
   let [task] = tasks.filter((task) => task._id === taskId);
 
   const handleStatusChange = (id: string, value: string) => {
