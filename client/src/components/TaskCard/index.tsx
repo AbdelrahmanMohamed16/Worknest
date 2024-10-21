@@ -21,6 +21,7 @@ interface TaskCardProps {
   description: string;
   status: string;
   duo: Dayjs | null;
+  isDetailed: boolean;
   onStatusChange: (newStatus: string) => void;
   onDelete: () => void;
   onUpdate: (updatedTask: {
@@ -40,6 +41,7 @@ export default function TaskCard({
   onStatusChange,
   onDelete,
   onUpdate,
+  isDetailed,
 }: TaskCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -48,7 +50,7 @@ export default function TaskCard({
   };
 
   return (
-    <Grid2 size={{ xs: 12, sm: 6, md: 6, lg: 4 }}>
+    <Grid2 size={!isDetailed ? { xs: 12, sm: 6, md: 6, lg: 4 } : 12}>
       <Card
         sx={{
           // maxWidth: 400,

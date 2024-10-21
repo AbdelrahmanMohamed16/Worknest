@@ -79,7 +79,7 @@ export default function LeftSidebar() {
           <ListItem key={item.text} disablePadding>
             <ListItemButton>
               <Link
-                to={item.text}
+                to={item.text.toLowerCase()}
                 style={{
                   textDecoration: "none",
                   color: "#3754DB",

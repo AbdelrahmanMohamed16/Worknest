@@ -6,11 +6,13 @@ import cover from "../../assets/kobu.jpeg";
 import { useTasksContext } from "../Store/TasksContext";
 import SimpleTaskCard from "../../components/SimpleTaskCard";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Outlet, useParams } from "react-router-dom";
 
 export default function Overview() {
   const { userData } = useUserContext();
   const [value, setValue] = useState("1");
   const { tasksDueDate } = useTasksContext();
+  const { id } = useParams();
 
   if (userData === null || userData === "loading") return <></>;
 
@@ -100,7 +102,9 @@ export default function Overview() {
   }
 
   if (!userData) return <p>Loading user data...</p>;
-  return (
+  return id ? (
+    <Outlet />
+  ) : (
     <Grid2 container mt={3} mx={3}>
       <Grid2 sx={{ width: "100%" }}>
         <Stack>

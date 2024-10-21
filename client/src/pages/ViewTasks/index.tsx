@@ -199,6 +199,7 @@ export default function ViewTasks() {
                         handleUpdate(task._id, updatedTask)
                       }
                       key={task._id}
+                      isDetailed={false}
                     />
                   ))
                 )}
@@ -240,6 +241,7 @@ export default function ViewTasks() {
                         onUpdate={(updatedTask) =>
                           handleUpdate(task._id, updatedTask)
                         }
+                        isDetailed={false}
                       />
                     ))
                 )}
@@ -282,6 +284,7 @@ export default function ViewTasks() {
                         onUpdate={(updatedTask) =>
                           handleUpdate(task._id, updatedTask)
                         }
+                        isDetailed={false}
                       />
                     ))
                 )}
@@ -324,6 +327,7 @@ export default function ViewTasks() {
                         onUpdate={(updatedTask) =>
                           handleUpdate(task._id, updatedTask)
                         }
+                        isDetailed={false}
                       />
                     ))
                 )}

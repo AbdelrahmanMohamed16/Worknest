@@ -3,7 +3,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-// import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -11,6 +10,7 @@ import { useState } from "react";
 import { Autocomplete, CircularProgress, TextField } from "@mui/material";
 import { useTasksContext } from "../../pages/Store/TasksContext";
 import { Dayjs } from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -37,29 +37,6 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   right: 0,
 }));
 
-// const StyledInputBase = styled(InputBase)(({ theme }) => ({
-//   color: "black",
-//   "& .MuiInputBase-input": {
-//     padding: theme.spacing(1, 1, 1, 0),
-//     // vertical padding + font size from searchIcon
-//     paddingLeft: `calc(1em + ${theme.spacing(1)})`,
-//     transition: theme.transitions.create("width"),
-//     width: "100%",
-//     [theme.breakpoints.down("md")]: {
-//       width: "15ch",
-//     },
-//     [theme.breakpoints.down("sm")]: {
-//       width: "12ch",
-//     },
-//     [theme.breakpoints.only("xs")]: {
-//       width: "20ch",
-//     },
-//     [theme.breakpoints.up("md")]: {
-//       width: "20ch",
-//     },
-//   },
-// }));
-
 interface Task {
   // Task: {
   _id: string;
@@ -84,6 +61,7 @@ export default function Navbar() {
   const [options, setOptions] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
   const { tasks } = useTasksContext();
+  const navigate = useNavigate();
 
   function NotificationRing() {
     const { tasksDueDate } = useTasksContext();
@@ -133,12 +111,7 @@ export default function Navbar() {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            {/* <StyledInputBase
-              placeholder="Search your Tasks here..."
-              inputProps={{ "aria-label": "search" }}
-            /> */}
             <Autocomplete
-              // sx={{ width: 300 }}
               open={open}
               onOpen={handleOpen}
               onClose={handleClose}
@@ -149,10 +122,8 @@ export default function Navbar() {
               options={options}
               loading={loading}
               popupIcon={null}
-              disableClearable
               onChange={(event, value) => {
-                console.log("Selected option:", value);
-                // Handle the selected option here
+                navigate(`/${value?._id}`);
               }}
               renderInput={(params) => (
                 <TextField

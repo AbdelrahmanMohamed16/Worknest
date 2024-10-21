@@ -12,6 +12,7 @@ import { NotFound } from "./pages/NotFound";
 import Settings from "./pages/Settings";
 import Loading from "./pages/Loading";
 import { useTasksContext } from "./pages/Store/TasksContext";
+import TaskDetails from "./components/TaskDetails";
 
 const App: React.FC = () => {
   const { userData } = useUserContext();
@@ -58,13 +59,30 @@ const App: React.FC = () => {
           }
         />
         <Route
+          path=":id"
+          element={
+            <ProtectedRoute>
+              <TaskDetails />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
           path="overview"
           element={
             <ProtectedRoute>
               <Overview />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route
+            path=":id"
+            element={
+              <ProtectedRoute>
+                <TaskDetails />
+              </ProtectedRoute>
+            }
+          ></Route>
+        </Route>
         <Route
           path="tasks"
           element={
