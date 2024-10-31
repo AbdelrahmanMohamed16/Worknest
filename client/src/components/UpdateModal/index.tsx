@@ -193,7 +193,6 @@ export default function UpdateModal({
               >
                 <MenuItem value="in progress">In Progress</MenuItem>
                 <MenuItem value="pending">Pending</MenuItem>
-                <MenuItem value="completed">Completed</MenuItem>
               </Select>
             </FormControl>
             {errors.status && (
